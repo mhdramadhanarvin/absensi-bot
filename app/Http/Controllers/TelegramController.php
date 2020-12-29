@@ -8,6 +8,11 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramController extends Controller
 {
+
+    public function __construct()
+    {
+        Telegram::commandsHandler(true);
+    }
     // public function index()
     // {
     //     // $command = new \App\Telegram\Commands\StartCommand;
