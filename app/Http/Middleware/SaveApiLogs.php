@@ -32,6 +32,6 @@ class SaveApiLogs
             'response'  => json_encode($responseData)
         ]);
 
-        return $next($request);
+        return $response;
     }
 }
