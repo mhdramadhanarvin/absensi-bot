@@ -13,24 +13,15 @@ class TelegramController extends Controller
     {
         Telegram::commandsHandler(true);
     }
-    // public function index()
-    // {
-    //     // $command = new \App\Telegram\Commands\StartCommand;
-    //     Telegram::addCommands([
-    //         \App\Telegram\Commands\StartCommand::class,
-    //         \Telegram\Bot\Commands\HelpCommand::class
-    //     ]);
-    // }
 
     public function webhook(Request $request)
     {
         $id = $request->message['chat']['id'];
         // try {
-            // $response = Telegram::getCommands();
-            $response = Telegram::sendMessage([
-                'chat_id'   => $id,
-                'text'      => rand(1,9)
-            ]);
+        //     $response = Telegram::sendMessage([
+        //         'chat_id'   => $id,
+        //         'text'      => rand(1,9)
+        //     ]);
         // } catch (\Exception $e) {
         //     return response()->json([
         //         'status' => false,
@@ -39,7 +30,6 @@ class TelegramController extends Controller
         //     ]);
         // }
 
-        return response()->json($response);
-        // dd($response);
+        // return response()->json($response);
     }
 }
