@@ -3,6 +3,7 @@
 namespace App\Telegram\Commands;
 
 use Telegram\Bot\Actions;
+use App\Models\AlarmModel;
 use Telegram\Bot\Commands\Command;
 
 class MyAlarmCommand extends Command
