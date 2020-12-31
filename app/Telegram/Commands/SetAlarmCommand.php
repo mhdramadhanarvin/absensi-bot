@@ -11,7 +11,7 @@ class SetAlarmCommand extends Command
 {
     protected $name = "setalarm";
 
-    protected $description = "Setel alarm. Format MM:DD. 24-Hour";
+    protected $description = "Setel alarm. Format MM:DD. 24-Hour. Contoh: /setalarm 20:00";
 
     public function handle()
     {

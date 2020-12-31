@@ -10,7 +10,7 @@ class MyAlarmCommand extends Command
 {
     protected $name = "myalarm";
 
-    protected $description = "List My Alarm";
+    protected $description = "Daftar alarm saya";
 
     public function handle()
     {
@@ -22,6 +22,11 @@ class MyAlarmCommand extends Command
         $fromTelegram = request()->message;
         $data = AlarmModel::where('user_id', $fromTelegram['chat']['id']);
 
-        dd($data);
+        $response = '';
+        foreach ($data as $row) {
+            $response .= $row . PHP_EOL;
+        }
+
+        $this->replyWithMessage(['text' => $response]);
     }
 }
