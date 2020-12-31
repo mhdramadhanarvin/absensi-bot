@@ -26,12 +26,12 @@ class SetAlarmCommand extends Command
         $arguments = explode(' ', $fromTelegram['text']);
 
         if (count($arguments) != 2) {
-            $this->replyWithMessage(['text' => "Format tidak valid. Contoh: /setalarm 08:55"]);
+            $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /setalarm 16:55"]);
             exit;
         } else {
             $format = preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9])$/", $arguments[1]);
             if (!$format) {
-                $this->replyWithMessage(['text' => "Format tidak valid. Contoh: /setalarm 08:55"]);
+                $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /setalarm 16:55"]);
                 exit;
             }
         }
@@ -45,6 +45,7 @@ class SetAlarmCommand extends Command
 
         if ($alarm >= 3) {
             $this->replyWithMessage(['text' => "Alarm sudah mencapai batas, max 3 alarm."]);
+            exit;
         } else {
             $this->saveAlarm();
             $this->replyWithMessage(['text' => "OK, alarm disimpan."]);

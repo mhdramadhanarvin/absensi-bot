@@ -57,12 +57,12 @@ class StartCommand extends Command
         $user = UsersModel::find($fromTelegram['id']);
         $name = $fromTelegram['username'];
 
-        if (!$user) {
-            $users = new UsersModel;
-            $users->id = $fromTelegram['id'];
-            $users->name = $name;
-            $users->save();
-        }
+        // if (!$user) {
+        //     $users = new UsersModel;
+        //     $users->id = $fromTelegram['id'];
+        //     $users->name = $name;
+        //     $users->save();
+        // }
 
         $this->replyWithMessage(['text' => "Oke, $name bot sudah siap.."]);
 

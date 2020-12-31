@@ -23,6 +23,7 @@ class CreateTelegramCommand extends GeneratorCommand
     protected $description = 'Create a new Telegram Command';
 
     protected $type = 'Telegram command';
+
     /**
      * Get the stub file for the generator.
      *

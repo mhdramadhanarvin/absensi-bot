@@ -16,20 +16,8 @@ class TelegramController extends Controller
 
     public function webhook(Request $request)
     {
-        $id = $request->message['chat']['id'];
-        // try {
-        //     $response = Telegram::sendMessage([
-        //         'chat_id'   => $id,
-        //         'text'      => rand(1,9)
-        //     ]);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => $e->getMessage(),
-        //         'error' => $e
-        //     ]);
-        // }
+        $chat = $request->message;
 
-        // return response()->json($response);
+        return response()->json($chat);
     }
 }
