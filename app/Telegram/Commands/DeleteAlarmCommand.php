@@ -10,7 +10,7 @@ class DeleteAlarmCommand extends Command
 {
     protected $name = "delalarm";
 
-    protected $description = "Hapus alarm anda. Contoh: /delalarm 6";
+    protected $description = "Hapus alarm anda. Contoh: /delalarm <id>";
 
     public function handle()
     {
@@ -29,13 +29,13 @@ class DeleteAlarmCommand extends Command
     {
         if (count($arguments) != 2) {
             $this->replyWithMessage([
-                "text" => "Format tidak valid. Contoh: /deletealarm 3"
+                "text" => "Format tidak valid. Contoh: /deletealarm <id>"
             ]);
             exit;
         } else {
             if (!is_numeric($arguments[1])) {
                 $this->replyWithMessage([
-                    "text" => "Format tidak valid. Contoh: /deletealarm 3"
+                    "text" => "Format tidak valid. Contoh: /deletealarm <id>"
                 ]);
                 exit;
             }

@@ -26,7 +26,7 @@ class ReportCommand extends Command
         $response = "ABSENSI SAYA" . PHP_EOL . PHP_EOL;
         $date = [];
         $response .= "`";
-        $response .= "TGL\t| \t WAKTU" . PHP_EOL;
+        $response .= "TGL\t| \tWAKTU" . PHP_EOL;
         foreach ($data as $row) {
 
             $date = substr($row->created_at, 8, 2);

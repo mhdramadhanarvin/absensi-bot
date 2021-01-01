@@ -10,7 +10,7 @@ class UpdateAlarmCommand extends Command
 {
     protected $name = "editalarm";
 
-    protected $description = "Ubah data alarm. Contoh: /editalarm 3 20:00";
+    protected $description = "Ubah data alarm. Contoh: /editalarm <id> <time>";
 
     public function handle()
     {
@@ -29,20 +29,20 @@ class UpdateAlarmCommand extends Command
     {
         if (count($arguments) != 3) {
             $this->replyWithMessage([
-                "text" => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /editalarm 3 16:55"
+                "text" => "Format tidak valid. Format MM:DD 24-Hour. \nContoh: /editalarm <id> <time>"
             ]);
             exit;
         } else {
             if (!is_numeric($arguments[1])) {
                 $this->replyWithMessage([
-                    "text" => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /editalarm 3 16:55"
+                    "text" => "Format tidak valid. Format MM:DD 24-Hour. \nContoh: /editalarm <id> <time>"
                 ]);
                 exit;
             }
 
             $format = preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9])$/", $arguments[2]);
             if (!$format) {
-                $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /setalarm 16:55"]);
+                $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. \nContoh: /setalarm 16:55"]);
                 exit;
             }
         }

@@ -11,7 +11,7 @@ class SetAlarmCommand extends Command
 {
     protected $name = "setalarm";
 
-    protected $description = "Setel alarm. Contoh: /setalarm 20:00";
+    protected $description = "Setel alarm. Contoh: /setalarm <time>";
 
     public function handle()
     {
@@ -28,12 +28,12 @@ class SetAlarmCommand extends Command
         $arguments = explode(' ', $fromTelegram['text']);
 
         if (count($arguments) != 2) {
-            $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /setalarm 16:55"]);
+            $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. \nContoh: /setalarm <time>"]);
             exit;
         } else {
             $format = preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9])$/", $arguments[1]);
             if (!$format) {
-                $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. Contoh: /setalarm 16:55"]);
+                $this->replyWithMessage(['text' => "Format tidak valid. Format MM:DD 24-Hour. \nContoh: /setalarm <time>"]);
                 exit;
             }
         }
