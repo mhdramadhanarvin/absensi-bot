@@ -28,6 +28,7 @@ class MyAlarmCommand extends Command
         foreach ($data as $row) {
             $response .= "`" . $row->id . "\t\t" . $row->time . "`" . PHP_EOL;
         }
+        if (count($data) == 0) $response .= "`DATA KOSONG`";
 
         $this->replyWithMessage(['text' => $response , 'parse_mode' => "MarkdownV2"]);
     }

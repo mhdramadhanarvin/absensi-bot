@@ -25,15 +25,17 @@ class ReportCommand extends Command
 
         $response = "ABSENSI SAYA" . PHP_EOL . PHP_EOL;
         $date = [];
+        $response .= "`";
         foreach ($data as $row) {
-            $response .= "`";
 
             $date = substr($row->created_at, 8, 2);
             $date = is_numeric(strpos($response, $date . " | ")) ? "  " : $date;
             $response .= $date  . " | " . $row->time . PHP_EOL;
 
-            $response .= "`";
         }
+        if (count($data) == 0) $response .= "DATA KOSONG";
+
+        $response .= "`";
 
         $this->replyWithMessage(['text' => $response, 'parse_mode' => "MarkdownV2"]);
     }
