@@ -44,6 +44,7 @@ return [
                 \App\Telegram\Commands\UpdateAlarmCommand::class,
                 \App\Telegram\Commands\DeleteAlarmCommand::class,
                 \App\Telegram\Commands\AbsensiCommand::class,
+                \App\Telegram\Commands\ReportCommand::class,
             ],
         ],
 

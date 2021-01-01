@@ -28,6 +28,6 @@ class TelegramController extends Controller
     {
         $chat = $request->message;
 
-        return response()->json($chat);
+        // return response()->json($chat);
     }
 }
