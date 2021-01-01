@@ -26,17 +26,19 @@ class ReportCommand extends Command
         $response = "ABSENSI SAYA" . PHP_EOL . PHP_EOL;
         $date = [];
         $response .= "`";
+        $response .= "TGL\t| \t WAKTU" . PHP_EOL;
         foreach ($data as $row) {
 
             $date = substr($row->created_at, 8, 2);
-            $date = is_numeric(strpos($response, $date . " | ")) ? "  " : $date;
-            $response .= $date  . " | " . $row->time . PHP_EOL;
+            $date = is_numeric(strpos($response, $date . "\t | \t")) ? "  " : $date;
+            $response .= $date  . "\t | \t" . $row->time . PHP_EOL;
 
         }
         if (count($data) == 0) $response .= "DATA KOSONG";
 
         $response .= "`";
 
+        // echo $response;
         $this->replyWithMessage(['text' => $response, 'parse_mode' => "MarkdownV2"]);
     }
 }
