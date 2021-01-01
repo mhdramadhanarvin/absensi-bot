@@ -35,7 +35,6 @@ class ReportCommand extends Command
             $response .= "`";
         }
 
-        // echo $response;
         $this->replyWithMessage(['text' => $response, 'parse_mode' => "MarkdownV2"]);
     }
 }
