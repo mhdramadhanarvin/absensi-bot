@@ -38,10 +38,12 @@ class ReminderAlarmAbsensi implements ShouldQueue
 
         foreach ($alarm as $row) {
             if ($row->time == $time) {
-                Telegram::sendMessage([
-                    'chat_id'    => $row->user_id,
-                    'text'  => "Jangan lupa untuk absensi ya.."
-                ]);
+                for ($i=1;$i<=10;$i++) {
+                    Telegram::sendMessage([
+                        'chat_id'    => $row->user_id,
+                        'text'  => "Jangan lupa untuk absensi ya.."
+                    ]);
+                }
             }
         }
     }

@@ -43,6 +43,7 @@ return [
                 \App\Telegram\Commands\SetAlarmCommand::class,
                 \App\Telegram\Commands\UpdateAlarmCommand::class,
                 \App\Telegram\Commands\DeleteAlarmCommand::class,
+                \App\Telegram\Commands\AbsensiCommand::class,
             ],
         ],
 
