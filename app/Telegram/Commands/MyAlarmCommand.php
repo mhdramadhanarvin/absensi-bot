@@ -19,14 +19,16 @@ class MyAlarmCommand extends Command
 
     public function getData()
     {
-        $fromTelegram = request()->message;
-        $data = AlarmModel::where('user_id', $fromTelegram['chat']['id']);
+        $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        $response = '';
+        $fromTelegram = request()->message;
+        $data = AlarmModel::where('user_id', $fromTelegram['chat']['id'])->get();
+
+        $response = "ALARM SAYA" . PHP_EOL . PHP_EOL;
         foreach ($data as $row) {
-            $response .= $row . PHP_EOL;
+            $response .= "`" . $row->id . "\t\t" . $row->time . "`" . PHP_EOL;
         }
 
-        $this->replyWithMessage(['text' => $response]);
+        $this->replyWithMessage(['text' => $response , 'parse_mode' => "MarkdownV2"]);
     }
 }

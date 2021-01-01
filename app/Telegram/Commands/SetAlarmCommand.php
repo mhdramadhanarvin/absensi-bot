@@ -18,6 +18,8 @@ class SetAlarmCommand extends Command
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->checkFormat();
         $this->checkLimit();
+
+        $this->triggerCommand('myalarm');
     }
 
     public function checkFormat()
