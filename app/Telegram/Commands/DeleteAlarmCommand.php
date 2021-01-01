@@ -10,7 +10,7 @@ class DeleteAlarmCommand extends Command
 {
     protected $name = "delalarm";
 
-    protected $description = "Hapus alarm anda";
+    protected $description = "Hapus alarm anda. Contoh: /delalarm 6";
 
     public function handle()
     {

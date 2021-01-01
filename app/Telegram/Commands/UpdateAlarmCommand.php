@@ -10,7 +10,7 @@ class UpdateAlarmCommand extends Command
 {
     protected $name = "editalarm";
 
-    protected $description = "Ubah data alarm. Format MM:DD. 24-Hour. Contoh: /editalarm 3 20:00";
+    protected $description = "Ubah data alarm. Contoh: /editalarm 3 20:00";
 
     public function handle()
     {
