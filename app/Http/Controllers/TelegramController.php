@@ -11,23 +11,17 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramController extends Controller
 {
-
-    public function __construct()
+    public function index()
     {
-        Telegram::commandsHandler(true);
+        $updates = Telegram::getWebhookUpdates();
+
+        return $updates;
     }
 
-    public function index()
+    public function scheduler()
     {
         $artisan = Artisan::call('schedule:run');
 
         return response()->json($artisan);
-    }
-
-    public function webhook(Request $request)
-    {
-        $chat = $request->message;
-
-        // return response()->json($chat);
     }
 }
