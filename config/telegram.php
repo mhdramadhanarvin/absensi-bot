@@ -122,7 +122,13 @@ return [
     |
     */
     'commands'                     => [
-        // Telegram\Bot\Commands\HelpCommand::class,
+        \App\Telegram\Commands\StartCommand::class,
+        // \App\Telegram\Commands\MyAlarmCommand::class,
+        // \App\Telegram\Commands\SetAlarmCommand::class,
+        // \App\Telegram\Commands\UpdateAlarmCommand::class,
+        // \App\Telegram\Commands\DeleteAlarmCommand::class,
+        // \App\Telegram\Commands\AbsensiCommand::class,
+        // \App\Telegram\Commands\ReportCommand::class,
     ],
 
     /*
@@ -183,8 +189,7 @@ return [
                 'status', // Shared Command Name.
                 'Acme\Project\Commands\BotCommand' // Full Path to Command Class.
            ],
-        */
-    ],
+        */],
 
     /*
     |--------------------------------------------------------------------------

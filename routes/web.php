@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'TelegramController@index');
 
-Route::post('42yUojv1YQPOssPEpn5i3q6vjdhh7hl7djVWDIAVhFDRMAwZ1tj0Og2v4PWyj4PZ/webhook', 'TelegramController@webhook')
-    ->middleware(['save.logs', 'auth.telegram']);
+Route::post('42yUojv1YQPOssPEpn5i3q6vjdhh7hl7djVWDIAVhFDRMAwZ1tj0Og2v4PWyj4PZ/webhook', function () {
+    Telegram::commandsHandler(true);
+
+    // return Telegram::getWebhookUpdates();
+})->middleware(['save.logs', 'auth.telegram']);
