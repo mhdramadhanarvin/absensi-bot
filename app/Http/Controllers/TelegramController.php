@@ -13,9 +13,7 @@ class TelegramController extends Controller
 {
     public function index()
     {
-        $updates = Telegram::getWebhookUpdates();
-
-        return $updates;
+        return "OK";
     }
 
     public function scheduler()
@@ -23,5 +21,13 @@ class TelegramController extends Controller
         $artisan = Artisan::call('schedule:run');
 
         return response()->json($artisan);
+    }
+
+    public function command()
+    {
+        Telegram::commandsHandler(true);
+
+        dd(Telegram::getWebhookUpdates());
+        return 'OK KOK';
     }
 }

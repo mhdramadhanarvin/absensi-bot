@@ -17,8 +17,4 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 Route::get('/', 'TelegramController@index');
 Route::get('/scheduler', 'TelegramController@scheduler');
 
-Route::post('42yUojv1YQPOssPEpn5i3q6vjdhh7hl7djVWDIAVhFDRMAwZ1tj0Og2v4PWyj4PZ/webhook', function () {
-    Telegram::commandsHandler(true);
-
-    return 'ok';
-})->middleware(['save.logs', 'auth.telegram']);
+Route::post('42yUojv1YQPOssPEpn5i3q6vjdhh7hl7djVWDIAVhFDRMAwZ1tj0Og2v4PWyj4PZ/webhook', 'TelegramController@command')->middleware(['save.logs', 'auth.telegram']);
