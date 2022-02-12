@@ -27,12 +27,11 @@ class StartCommand extends Command
     {
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $fromTelegram = request()->message['chat'];
-        $user = UsersModel::find($fromTelegram['id']);
-        $name = $fromTelegram['username'];
 
         $keyboard = [
-            ['ℹ️ Info'],
-            ['Check IN', 'Check OUT']
+            ['⏰ Info Alarm', '⏺️ Set Alarm'],
+            ['🟢 Check IN', '🔴 Check OUT'],
+            ['⌛ History In & Out'],
         ];
 
         $reply_markup = Keyboard::make([
@@ -43,7 +42,7 @@ class StartCommand extends Command
 
         $response = $this->replyWithMessage([
             'chat_id' => $fromTelegram['id'],
-            'text' => 'Hello World',
+            'text' => 'Hola, selamat datang di Bot, pilih salah satu',
             'reply_markup' => $reply_markup
         ]);
     }
