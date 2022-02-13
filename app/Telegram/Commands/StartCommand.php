@@ -3,10 +3,9 @@
 namespace App\Telegram\Commands;
 
 use Telegram\Bot\Actions;
-use App\Models\UsersModel;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Keyboard\Keyboard;
-use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Telegram\Keyboards\StartingKeyboard;
 
 class StartCommand extends Command
 {
@@ -43,7 +42,7 @@ class StartCommand extends Command
         $response = $this->replyWithMessage([
             'chat_id' => $fromTelegram['id'],
             'text' => 'Hola, selamat datang di Bot, pilih salah satu',
-            'reply_markup' => $reply_markup
+            'reply_markup' => (new StartingKeyboard)->keyboard
         ]);
     }
 }

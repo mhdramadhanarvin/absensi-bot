@@ -2,7 +2,7 @@
 
 namespace App\Telegram\Keyboards;
 
-class CheckINKeyboard
+class CheckInKeyboard
 {
     public function construct()
     {

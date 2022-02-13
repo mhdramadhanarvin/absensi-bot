@@ -6,7 +6,7 @@ use Telegram\Bot\Actions;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
-class InfoKeyboard
+class SetAlarmKeyboard
 {
     public function __construct()
     {

@@ -6,11 +6,17 @@ use Carbon\Carbon;
 use Telegram\Bot\Api;
 use App\Models\AlarmModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Artisan;
-use App\Telegram\Keyboards\InfoKeyboard;
-use App\Telegram\Keyboards\CheckInKeyboard;
-use App\Telegram\Keyboards\CheckOutKeyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Telegram\Keyboards\CheckInKeyboard;
+use App\Telegram\Keyboards\CanceledKeyboard;
+use App\Telegram\Keyboards\CheckOutKeyboard;
+use App\Telegram\Keyboards\SetAlarmKeyboard;
+use App\Telegram\Keyboards\InfoAlarmKeyboard;
+use App\Telegram\Keyboards\ChangeAlarmKeyboard;
+use App\Telegram\Keyboards\DeleteAlarmKeyboard;
+use App\Telegram\Helpers\SubActionHandlerHelper;
 
 class TelegramController extends Controller
 {
@@ -33,11 +39,14 @@ class TelegramController extends Controller
 
         $webhook = Telegram::getWebhookUpdates();
         $text = $webhook->message->text;
-
+        $to = $webhook->message->chat->id;
 
         switch ($text):
-            case "ℹ️ Info":
-                (new InfoKeyboard);
+            case "⏰ Info Alarm":
+                new InfoAlarmKeyboard;
+                break;
+            case "⏺️ Set Alarm":
+                new SetAlarmKeyboard;
                 break;
             case "🟢 Check In":
                 new CheckInKeyboard;
@@ -47,8 +56,22 @@ class TelegramController extends Controller
                 new CheckOutKeyboard;
                 return "Check Out";
                 break;
+            case "⌛ History In & Out":
+                // new HistoryInOutKeyboard;
+                return "Check Out";
+                break;
+            case "⛔ Batalkan":
+                new CanceledKeyboard($webhook->message->chat->id);
+                return "BATAL";
+                break;
+            case '✏️ Ubah Alarm':
+                return (new ChangeAlarmKeyboard($to))->pre();
+                break;
+            case '🗑️ Hapus Alarm':
+                return (new DeleteAlarmKeyboard($to))->pre();
+                break;
             default:
-                return $text;
+                return (new SubActionHandlerHelper($text))->handle();
                 break;
         endswitch;
     }
