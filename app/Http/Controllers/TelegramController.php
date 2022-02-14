@@ -46,7 +46,7 @@ class TelegramController extends Controller
                 new InfoAlarmKeyboard;
                 break;
             case "⏺️ Set Alarm":
-                new SetAlarmKeyboard;
+                (new SetAlarmKeyboard($to))->pre();
                 break;
             case "🟢 Check In":
                 new CheckInKeyboard;

@@ -19,123 +19,118 @@ class DeleteAlarmKeyboard
 
     public function pre()
     {
-        $response = "Silahkan masukkan ID alarm yang ingin dihapus";
+        try {
+            $response = "Silahkan masukkan ID alarm yang ingin dihapus";
 
-        $reply_markup = Keyboard::make([
-            'keyboard' => [
-                ['⛔ Batalkan'],
-            ],
-            'resize_keyboard' => true,
-            'one_time_keyboard' => true,
-        ]);
-        Cache::put($this->to, 'DeleteAlarm_');
-        Telegram::sendChatAction([
-            'chat_id'   => $this->to,
-            'action'    => Actions::TYPING
-        ]);
-        Telegram::sendMessage([
-            'chat_id'   => $this->to,
-            'text'      => $response,
-            'parse_mode'    => "MarkdownV2",
-            'reply_markup' => $reply_markup
-        ]);
+            $reply_markup = Keyboard::make([
+                'keyboard' => [
+                    ['⛔ Batalkan'],
+                ],
+                'resize_keyboard' => true,
+                'one_time_keyboard' => true,
+            ]);
+            Cache::put($this->to, 'DeleteAlarm_');
+            Telegram::sendChatAction([
+                'chat_id'   => $this->to,
+                'action'    => Actions::TYPING
+            ]);
+            Telegram::sendMessage([
+                'chat_id'   => $this->to,
+                'text'      => $response,
+                'parse_mode'    => "MarkdownV2",
+                'reply_markup' => $reply_markup
+            ]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function filter($text)
+    {
+        $split = explode("_", Cache::get($this->to));
+        // 2 = confirm
+        // 4 = delete
+        if (count($split) == 2 && $this->checkFormat($text) && $this->checkOwner($text)) $this->confirm($text);
+        if (count($split) == 4 && $text == '✔️ Yakin') return $this->do($text);
+    }
+
+    public function checkFormat($text)
+    {
+        try {
+            if (!is_numeric($text)) {
+                Telegram::sendMessage([
+                    "chat_id" => $this->to,
+                    "text" => "Format tidak valid" . PHP_EOL . " Contoh: `2`",
+                    'parse_mode' => "MarkdownV2"
+                ]);
+                return false;
+            }
+            return true;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function checkOwner($text)
+    {
+        try {
+            $alarm = AlarmModel::where('id', $text)->where('user_id', $this->to)->first();
+
+            if (!$alarm) {
+                Telegram::sendMessage([
+                    "chat_id" => $this->to,
+                    "text" => "Alarm dengan ID `" . $text . "` tidak ditemukan",
+                    'parse_mode' => "MarkdownV2"
+                ]);
+                return false;
+            }
+            return true;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function confirm($text)
     {
-        return $text;
+        try {
+            $reply_markup = Keyboard::make([
+                'keyboard' => [
+                    ['✔️ Yakin', '⛔ Batalkan'],
+                ],
+                'resize_keyboard' => true,
+                'one_time_keyboard' => true,
+            ]);
+            Cache::put($this->to, 'DeleteAlarm_' . $text . "_Confirm_");
+            Telegram::sendChatAction([
+                'chat_id'   => $this->to,
+                'action'    => Actions::TYPING
+            ]);
+            Telegram::sendMessage([
+                'chat_id'   => $this->to,
+                'text'      => "Yakin ingin menghapus alarm dengan ID  `" . $text . "`",
+                'parse_mode'    => "MarkdownV2",
+                'reply_markup' => $reply_markup
+            ]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function do($text)
     {
-        $arguments = explode('=', $text);
-        if ($this->checkFormat($arguments) == true) {
-            return $this->checkOwner($arguments);
-        }
-    }
-
-    public function checkFormat($arguments)
-    {
-        if (count($arguments) != 2) {
-            $message = "Format tidak valid `1`" . PHP_EOL . "Contoh:" . PHP_EOL . "Jika edit alarm ID `3` dengan menjadi `10:00`" . PHP_EOL . "Maka format `3=10:00`";
-            Telegram::sendChatAction(['chat_id' => $this->to, 'action' => Actions::TYPING]);
+        try {
+            Cache::forget($this->to);
+            $alarm = AlarmModel::find($text);
+            $alarm->delete();
             Telegram::sendMessage([
                 'chat_id'   => $this->to,
-                'text'  => $message,
-                'parse_mode' => "MarkdownV2",
+                'text'      => "Alarm berhasil dihapus",
+                'reply_markup' => new StartingKeyboard
             ]);
-            return "ChangeAlarm_" . $message;
-            exit;
-        } else {
-            $format = preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9])$/", $arguments[1]);
-            if (!is_numeric($arguments[0])) {
-                $message = "Format tidak valid `2`" . PHP_EOL . "Contoh:" . PHP_EOL . "Jika edit alarm ID `3` dengan menjadi `10:00`" . PHP_EOL . "Maka format `3=10:00`";
-                Telegram::sendChatAction(['chat_id' => $this->to, 'action' => Actions::TYPING]);
-                Telegram::sendMessage([
-                    'chat_id'   => $this->to,
-                    'text'  => $message,
-                    'parse_mode' => "MarkdownV2",
-                ]);
-                return "ChangeAlarm_" . $message;
-                exit;
-            } else if (!$format) {
-                $message = "Format tidak valid `3`" . PHP_EOL . "Contoh:" . PHP_EOL . "Jika edit alarm ID `3` dengan menjadi `10:00`" . PHP_EOL . "Maka format `3=10:00`";
-                Telegram::sendChatAction(['chat_id' => $this->to, 'action' => Actions::TYPING]);
-                Telegram::sendMessage([
-                    'chat_id'   => $this->to,
-                    'text'  => $message,
-                    'parse_mode' => "MarkdownV2",
-                ]);
-                return "ChangeAlarm_" . $message;
-                exit;
-            } else {
-                return true;
-            }
+
+            return true;
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
-    }
-
-    public function checkOwner($arguments)
-    {
-        $alarm = AlarmModel::find($arguments[0]);
-        if ($alarm) {
-            if ($alarm->user_id != $this->to) {
-                $message = "Permintaan tidak dapat diproses!";
-                Telegram::sendChatAction(['chat_id' => $this->to, 'action' => Actions::TYPING]);
-                Telegram::sendMessage([
-                    'chat_id'   => $this->to,
-                    "text" => $message
-                ]);
-                return "ChangeAlarm_" . $message;
-                exit;
-            }
-        } else {
-            $message = "Alarm tidak ditemukan!";
-            Telegram::sendChatAction(['chat_id' => $this->to, 'action' => Actions::TYPING]);
-            Telegram::sendMessage([
-                'chat_id'   => $this->to,
-                "text" => $message
-            ]);
-            return "ChangeAlarm_" . $message;
-            exit;
-        }
-
-        return $this->updateAlarm($alarm, $arguments);
-    }
-
-    public function updateAlarm(AlarmModel $alarm, $arguments)
-    {
-        $alarm->time = $arguments[1];
-        $alarm->save();
-
-        $message = "Alarm berhasil diperbarui.";
-        Telegram::sendChatAction(['chat_id' => $this->to, 'action' => Actions::TYPING]);
-        Telegram::sendMessage([
-            'chat_id'   => $this->to,
-            'text' => $message,
-            'reply_markup'  => (new StartingKeyboard)->keyboard
-        ]);
-
-        return "ChangeAlarm_" . $message;
-        // exit;
     }
 }
