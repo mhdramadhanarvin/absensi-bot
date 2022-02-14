@@ -8,13 +8,15 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class SetAlarmKeyboard
 {
+    protected $to;
+
     public function __construct()
     {
         $webhook = Telegram::getWebhookUpdates();
         $to = $webhook->message->chat->id;
 
         $keyboard = [
-            ['⏰ Info Alarm', '⌛ History In & Out']
+            ['⛔ Batalkan']
         ];
 
         $reply_markup = Keyboard::make([
@@ -25,7 +27,7 @@ class SetAlarmKeyboard
 
         $response = Telegram::sendMessage([
             'chat_id' => $to,
-            'text' => 'Choose the one',
+            'text' => 'Masukkan waktu',
             'reply_markup' => $reply_markup
         ]);
     }
