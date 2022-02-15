@@ -25,15 +25,16 @@ class HistoryInOutKeyboard
                             ->get();
 
         $response = "ABSENSI SAYA" . PHP_EOL . PHP_EOL;
+        $response .= "Bulan : ". date('M Y') . PHP_EOL;
         $date = [];
         $response .= "`";
-        $response .= "TGL\t| JENIS\t| \tWAKTU" . PHP_EOL;
+        $response .= "TGL\t|\tJENIS\t|\tWAKTU" . PHP_EOL;
         foreach ($data as $row) {
 
             $date = substr($row->created_at, 8, 2);
             $date = is_numeric(strpos($response, $date . "\t | \t")) ? "  " : $date;
-            $type = ($row->type == 1) ? 'IN' : 'OUT';
-            $response .= $date  . "\t |\t".$type."\t | \t" . $row->time . PHP_EOL;
+            $type = ($row->type == 1) ? "\t IN\t\t" : "\tOUT\t\t";
+            $response .= $date  . "\t |\t".$type."|\t" . $row->time . PHP_EOL;
 
         }
         if (count($data) == 0) $response .= "DATA KOSONG";
