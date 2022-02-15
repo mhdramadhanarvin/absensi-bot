@@ -33,6 +33,15 @@ class TelegramController extends Controller
         return response()->json($artisan);
     }
 
+    public function setWebhook()
+    {
+        $setwebhook = Telegram::setWebhook([
+            'url' => config('telegram.webhook_url')
+        ]);
+
+        if ($setwebhook) return "BERHASIL";
+    }
+
     public function command()
     {
         Telegram::commandsHandler(true);
