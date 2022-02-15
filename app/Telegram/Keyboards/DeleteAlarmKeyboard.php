@@ -51,7 +51,7 @@ class DeleteAlarmKeyboard
         // 2 = confirm
         // 4 = delete
         if (count($split) == 2 && $this->checkFormat($text) && $this->checkOwner($text)) $this->confirm($text);
-        if (count($split) == 4 && $text == '✔️ Yakin') return $this->do($text);
+        if (count($split) == 4 && $text == '✔️ Yakin') return $this->do($split[1]);
     }
 
     public function checkFormat($text)
@@ -125,7 +125,7 @@ class DeleteAlarmKeyboard
             Telegram::sendMessage([
                 'chat_id'   => $this->to,
                 'text'      => "Alarm berhasil dihapus",
-                'reply_markup' => new StartingKeyboard
+                'reply_markup' => (new StartingKeyboard)->keyboard
             ]);
 
             return true;

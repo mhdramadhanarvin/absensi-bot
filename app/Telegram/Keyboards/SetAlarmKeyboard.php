@@ -44,7 +44,7 @@ class SetAlarmKeyboard
     {
         if (!$this->checkFormat($text)) return "CHECK FORMAT!!";
         if (!$this->checkLimit($text)) return "CHECK LIMIT!";
-        $this->saveAlarm($text);
+        return $this->saveAlarm($text);
     }
 
     public function checkFormat($text)
@@ -73,18 +73,27 @@ class SetAlarmKeyboard
             ]);
             return false;
         }
-        Telegram::sendMessage([
-            'chat_id' => $this->to,
-            'text' => "OK, alarm disimpan."
-        ]);
+
         return true;
     }
 
     public function saveAlarm($text)
     {
-        $alarm = new AlarmModel;
-        $alarm->user_id = $this->to;
-        $alarm->time = $text;
-        $alarm->save();
+        try {
+            Cache::forget($this->to);
+            Telegram::sendMessage([
+                'chat_id' => $this->to,
+                'text' => "OK, alarm disimpan.",
+                'reply_markup' => (new StartingKeyboard)->keyboard
+            ]);
+
+            $alarm = new AlarmModel;
+            $alarm->user_id = $this->to;
+            $alarm->time = $text;
+            $alarm->save();
+            return true;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
