@@ -18,7 +18,7 @@ class StartingKeyboard
     {
         $keyboard = [
             ['⏰ Info Alarm', '⏺️ Set Alarm'],
-            ['🟢 Check IN', '🔴 Check OUT'],
+            ['🟢 Check In', '🔴 Check Out'],
             ['⌛ History In & Out'],
         ];
 

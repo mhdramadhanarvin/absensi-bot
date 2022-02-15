@@ -17,6 +17,7 @@ use App\Telegram\Keyboards\InfoAlarmKeyboard;
 use App\Telegram\Keyboards\ChangeAlarmKeyboard;
 use App\Telegram\Keyboards\DeleteAlarmKeyboard;
 use App\Telegram\Helpers\SubActionHandlerHelper;
+use App\Telegram\Keyboards\HistoryInOutKeyboard;
 
 class TelegramController extends Controller
 {
@@ -58,16 +59,13 @@ class TelegramController extends Controller
                 (new SetAlarmKeyboard($to))->pre();
                 break;
             case "🟢 Check In":
-                new CheckInKeyboard;
-                return "Check In";
+                return (new CheckInKeyboard($to))->saveCheckIn();
                 break;
             case "🔴 Check Out":
-                new CheckOutKeyboard;
-                return "Check Out";
+                return (new CheckOutKeyboard($to))->saveCheckOut();
                 break;
             case "⌛ History In & Out":
-                // new HistoryInOutKeyboard;
-                return "Check Out";
+                return (new HistoryInOutKeyboard($to))->print();
                 break;
             case "⛔ Batalkan":
                 new CanceledKeyboard($webhook->message->chat->id);
