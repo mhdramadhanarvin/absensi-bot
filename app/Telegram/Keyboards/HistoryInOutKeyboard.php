@@ -2,10 +2,11 @@
 
 namespace App\Telegram\Keyboards;
 
-use App\Models\AbsensiModel;
-use App\Models\AlarmModel;
 use Telegram\Bot\Actions;
+use App\Models\AlarmModel;
+use App\Models\AbsensiModel;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Telegram\Keyboards\StartingKeyboard;
 
 class HistoryInOutKeyboard
 {
@@ -44,7 +45,8 @@ class HistoryInOutKeyboard
         Telegram::sendMessage([
             'chat_id' => $this->to,
             'text' => $response,
-            'parse_mode' => "MarkdownV2"
+            'parse_mode' => "MarkdownV2",
+            'reply_markup' => (new StartingKeyboard)->keyboard
         ]);
     }
 }

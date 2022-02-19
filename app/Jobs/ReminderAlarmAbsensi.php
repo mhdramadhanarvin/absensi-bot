@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Telegram\Keyboards\StartingKeyboard;
 
 class ReminderAlarmAbsensi implements ShouldQueue
 {
@@ -41,7 +42,8 @@ class ReminderAlarmAbsensi implements ShouldQueue
                 for ($i=1;$i<=10;$i++) {
                     Telegram::sendMessage([
                         'chat_id'    => $row->user_id,
-                        'text'  => "Jangan lupa untuk absensi ya.."
+                        'text'  => "Jangan lupa untuk absensi ya..",
+                        'reply_markup' => (new StartingKeyboard)->keyboard
                     ]);
                 }
             }

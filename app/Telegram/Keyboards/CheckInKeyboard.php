@@ -2,10 +2,11 @@
 
 namespace App\Telegram\Keyboards;
 
-use App\Models\AbsensiModel;
-use App\Models\AlarmModel;
 use Telegram\Bot\Actions;
+use App\Models\AlarmModel;
+use App\Models\AbsensiModel;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Telegram\Keyboards\StartingKeyboard;
 
 class CheckInKeyboard
 {
@@ -37,7 +38,8 @@ class CheckInKeyboard
         ]);
         $response = Telegram::sendMessage([
             'chat_id' => $this->to,
-            'text' => "Berhasil Check In"
+            'text' => "Berhasil Check In",
+            'reply_markup' => (new StartingKeyboard)->keyboard
         ]);
     }
 }
